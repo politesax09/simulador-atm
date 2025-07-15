@@ -12,11 +12,10 @@
 
 int main(int argc, char const *argv[])
 {
-    printf("hola aqui tamo");
+    std::vector<User> users;
 
     while (true)
     {
-        std::vector<User> users;
     }
     
 

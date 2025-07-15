@@ -12,8 +12,8 @@ private:
 public:
     atm(/* args */);
     ~atm();
-    void load_users_from_file();
-    void save_users_to_file();
+    void load_users();
+    void save_users();
     User* login(std::string username, std::string pin);
     void show_main_menu(User* user);
 };
