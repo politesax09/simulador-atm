@@ -4,6 +4,12 @@
 #include <iomanip>
 #include "Transaction.h"
 
+/* TODO:
+- getAccount()
+- getTimestamp()
+*/
+
+
 Transaction::Transaction(){
     // this->type = TransactionType::NONE;
     this->type = TransactionType::NONE;

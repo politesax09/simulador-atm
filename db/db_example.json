@@ -1,0 +1,144 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "last_updated": "2025-07-21T14:30:45Z",
+    "total_users": 3,
+    "total_accounts": 3
+  },
+
+// TIENE MAS CAMPOS QUE SE PUEDEN IR ANADIENDO RESPECTO AL ACTUAL db.json
+
+  "users": [
+    {
+      "username": "admin",
+      "hashed_pin": "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
+      "created_date": "2025-01-15T10:30:00Z",
+      "last_login": "2025-07-21T09:15:30Z",
+      "status": "active",
+      "account": {
+        "account_number": "ACC001",
+        "balance": 10000.50,
+        "account_type": "checking",
+        "created_date": "2025-01-15T10:30:00Z",
+        "daily_withdrawal_limit": 1000.00,
+        "remaining_daily_limit": 500.00
+      },
+      "transaction_history": [
+        {
+          "transaction_id": "TXN001",
+          "type": "DEPOSIT",
+          "amount": 5000.00,
+          "timestamp": "2025-07-20T16:45:20Z",
+          "description": "Depósito en efectivo",
+          "balance_after": 15000.50,
+          "location": "ATM_001"
+        },
+        {
+          "transaction_id": "TXN002", 
+          "type": "WITHDRAWAL",
+          "amount": 500.00,
+          "timestamp": "2025-07-21T09:20:15Z",
+          "description": "Retiro de efectivo",
+          "balance_after": 10000.50,
+          "location": "ATM_001"
+        }
+      ]
+    },
+    {
+      "username": "user1",
+      "hashed_pin": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+      "created_date": "2025-02-01T14:20:00Z",
+      "last_login": "2025-07-20T18:30:45Z",
+      "status": "active",
+      "account": {
+        "account_number": "ACC002",
+        "balance": 2500.75,
+        "account_type": "savings",
+        "created_date": "2025-02-01T14:20:00Z",
+        "daily_withdrawal_limit": 500.00,
+        "remaining_daily_limit": 500.00
+      },
+      "transaction_history": [
+        {
+          "transaction_id": "TXN003",
+          "type": "TRANSFER_IN",
+          "amount": 1000.00,
+          "timestamp": "2025-07-19T11:30:00Z",
+          "description": "Transferencia recibida de admin",
+          "balance_after": 2500.75,
+          "from_account": "ACC001",
+          "location": "ONLINE"
+        },
+        {
+          "transaction_id": "TXN004",
+          "type": "BALANCE_INQUIRY",
+          "amount": 0.00,
+          "timestamp": "2025-07-20T18:30:45Z",
+          "description": "Consulta de saldo",
+          "balance_after": 2500.75,
+          "location": "ATM_002"
+        }
+      ]
+    },
+    {
+      "username": "user2", 
+      "hashed_pin": "cd2eb0837c9b4c962c22d2ff8b5441b7b45805887f051d39bf133b583baf6860",
+      "created_date": "2025-03-10T09:00:00Z",
+      "last_login": "2025-07-18T12:45:30Z",
+      "status": "suspended",
+      "account": {
+        "account_number": "ACC003",
+        "balance": 750.25,
+        "account_type": "checking",
+        "created_date": "2025-03-10T09:00:00Z",
+        "daily_withdrawal_limit": 800.00,
+        "remaining_daily_limit": 300.00
+      },
+      "transaction_history": [
+        {
+          "transaction_id": "TXN005",
+          "type": "WITHDRAWAL",
+          "amount": 500.00,
+          "timestamp": "2025-07-18T12:00:00Z",
+          "description": "Retiro de efectivo",
+          "balance_after": 750.25,
+          "location": "ATM_003"
+        },
+        {
+          "transaction_id": "TXN006",
+          "type": "PIN_CHANGE",
+          "amount": 0.00,
+          "timestamp": "2025-07-18T12:45:30Z",
+          "description": "Cambio de PIN",
+          "balance_after": 750.25,
+          "location": "ATM_003"
+        }
+      ]
+    }
+  ],
+  "system_settings": {
+    "max_daily_withdrawal": 2000.00,
+    "max_single_withdrawal": 1000.00,
+    "transaction_fee": 2.50,
+    "currency": "USD",
+    "timezone": "UTC",
+    "maintenance_mode": false,
+    "failed_login_attempts_limit": 3
+  },
+  "atm_locations": [
+    {
+      "atm_id": "ATM_001",
+      "location": "Main Branch",
+      "address": "123 Main St, City",
+      "status": "online",
+      "cash_available": 50000.00
+    },
+    {
+      "atm_id": "ATM_002", 
+      "location": "Shopping Mall",
+      "address": "456 Mall Ave, City",
+      "status": "online",
+      "cash_available": 25000.00
+    }
+  ]
+}

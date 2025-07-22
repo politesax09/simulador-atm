@@ -10,6 +10,7 @@ private:
     double balance;
 public:
     Account();
+    Account(std::string new_account_number, double new_balance);
     ~Account();
     void deposit(double amount);
     bool withraw(double amount);

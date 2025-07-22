@@ -1,0 +1,80 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "last_updated": "2025-07-21T14:30:45Z",
+    "total_users": 3,
+    "total_accounts": 3
+  },
+  "users": [
+    {
+      "username": "admin",
+      "hashed_pin": "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
+      "status": "active",
+      "account": {
+        "account_number": "ACC001",
+        "balance": 10000.50
+      },
+      "transaction_history": [
+        {
+          "transaction_id": "TXN001",
+          "type": "DEPOSIT",
+          "amount": 5000.00,
+          "timestamp": "2025-07-20T16:45:20Z"
+        },
+        {
+          "transaction_id": "TXN002", 
+          "type": "WITHDRAWAL",
+          "amount": 500.00,
+          "timestamp": "2025-07-21T09:20:15Z"
+        }
+      ]
+    },
+    {
+      "username": "user1",
+      "hashed_pin": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+      "status": "active",
+      "account": {
+        "account_number": "ACC002",
+        "balance": 2500.75
+      },
+      "transaction_history": [
+        {
+          "transaction_id": "TXN003",
+          "type": "TRANSFER_IN",
+          "amount": 1000.00,
+          "timestamp": "2025-07-19T11:30:00Z"
+        },
+        {
+          "transaction_id": "TXN004",
+          "type": "BALANCE_INQUIRY",
+          "amount": 0.00,
+          "timestamp": "2025-07-20T18:30:45Z"
+        }
+      ]
+    },
+    {
+      "username": "user2", 
+      "hashed_pin": "cd2eb0837c9b4c962c22d2ff8b5441b7b45805887f051d39bf133b583baf6860",
+      "status": "suspended",
+      "account": {
+        "account_number": "ACC003",
+        "balance": 750.25,
+        "account_type": "checking"
+      },
+      "transaction_history": [
+        {
+          "transaction_id": "TXN005",
+          "type": "WITHDRAWAL",
+          "amount": 500.00,
+          "timestamp": "2025-07-18T12:00:00Z"
+        },
+        {
+          "transaction_id": "TXN006",
+          "type": "PIN_CHANGE",
+          "amount": 0.00,
+          "timestamp": "2025-07-18T12:45:30Z"
+        }
+      ]
+    }
+  ]
+}
