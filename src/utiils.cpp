@@ -2,21 +2,25 @@
 #include <iostream>
 #include <map>
 #include <fstream>
+#include <openssl/sha.h>
+#include <chrono>
+#include <iomanip>
+#include <sstream>
 #include "json.hpp"
 #include "User.h"
 
 using json = nlohmann::json;
 
 /* TODO:
-- createDefaultUsers()
-- hashPin()
-- verifyPin()
 - getCurrentTimestamp()
 */
 
 
-// Abre el fichero JSON que almacena los datos y lee los usuarios guardados con sus datos y los carga en los objetos necesarios.
-// Si no se encuentra el fichero, se crean los usuarios por defecto.
+// Abre el fichero JSON que almacena los datos y lee los usuarios guardados con sus datos
+// y los carga en los objetos necesarios. Si no se encuentra el fichero, se crean los usuarios por defecto.
+// Params:
+// - path -> String que indica la ruta al fichero utilizado.
+// Return: map<string, User>, diccionario de usuarios con clave "string" y valor "User".
 std::map<std::string, User> readUsersFromFile(std::string path){
     std::map<std::string, User> users;
     // Abrir fichero JSON 
@@ -71,12 +75,26 @@ std::map<std::string, User> readUsersFromFile(std::string path){
     }
 }
 
+// Crea un diccionario de usuarios por defecto.
+// Return: map<string, User>, Diccionario con clave "string" y valor "User".
 std::map<std::string, User> createDefaultUsers() {
-// Usuarios por defecto:
-        // User admin = User("admin", "1234", 10000.0);
-        // users["admin"] = admin;
+    Account acc_usr1("ES123456789", 1000.00);
+    Account acc_usr2("ES877334422", 3000.00);
+    Account acc_usr3("ES483729334", 45000.00);
+    User usr1("Rogelio", "1234", acc_usr1);
+    User usr2("Angel", "4321", acc_usr3);
+    User usr3("Rosa", "2222", acc_usr3);
+
+    users["rogelio"] = usr1;
+    users["angel"] = usr2;
+    users["rosa"] = usr3;
+    return users;
 }
 
+// Guarda los usuarios y algunos metadatos en el fichero JSON a modo de base de datos.
+// Params:
+// - users -> Referencia al diccionario <string,User> donde se almacenan los usuarios.
+// - path -> Referencia al string que indica la ruta del fichero JSON.
 void saveUsersToJSON(const std::map<std::string, User>& users, const std::string& path) {
     json jsonData;
     
@@ -127,11 +145,60 @@ void saveUsersToJSON(const std::map<std::string, User>& users, const std::string
         std::cout << "Error al abrir el archivo JSON: " << path << std::endl;    
 }
 
+// Calcula el hash del PIN introducido.
+// Params:
+// - pin -> Tipo string.
+// Return: string, PIN hashedado.
 std::string hashPin(std::string pin) {
+    // Validar PIN longitud y solo numeros
+    if (pin.length() != 4)
+        throw std::invalid_argument("El PIN debe tener 4 digitos.");
+    for (char c : pin) {
+        if (!std::isdigit(c))
+            throw std::invalid_argument("El PIN debe contener solo numeros.");
+    }
+    // Anadir salt
+    std::string saltedPin = pin + "adfiRHsCsw45D";
+    // Generar hash
+    unsigned char hash[SHA256_DIGEST_LENGTH];
+    SHA256_CTX sha256;
+    SHA256_Init(&sha256);
+    SHA256_Update(&sha256, saltedPin.c_str(), saltedPin.length());
+    SHA256_Final(hash, &sha256);
+    // Convertir a string hex
+    std::stringstream ss;
+    for (int i = 0; i < SHA256_DIGEST_LENGTH; i++)
+        ss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
+    return ss.str();    
+
 
 }
 
-
+// Comprueba que el PIN y el hash introducidos coninciden. Si no, lanza una excepcion.
+// Params:
+// - hashed -> String, hash del PIN.
+// - entered -> String, PIN introducido sin hashear.
+// Return: bool, True si coinciden, False si no.
 bool verifyPin(std::string hashed, std::string entered) {
+    try
+    {
+        std::string enteredHash = hashPin(entered);
+        return hashed == enteredHash;
+    }
+    catch(const std::exception& e)
+        return false;
+}
 
+// Obtiene el timestamp actual en formato ISO 8601
+// Return: string, timestamp en formato "YYYY-MM-DD HH:MM:SS"
+std::string getCurrentTimestamp() {
+    // Obtener tiempo actual
+    auto now = std::chorno::system_clock::now();
+    auto time_t = std::chrono::system_clock::to_time_t(now);
+    // Convertir a estructura tm
+    std::tm* tm = std::localtime(&time_t);
+    // Formatear como string
+    std::stringstream ss;
+    ss << std::put_time(tm, "%Y-%m-%d %H:%M:%S");
+    return ss.str();
 }

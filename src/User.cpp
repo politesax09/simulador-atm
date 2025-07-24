@@ -3,9 +3,11 @@
 #include "User.h"
 
 /* TODO:
-- getUsername()
-- getHashedPin()
-- getAccount()
+- authenticate()
+- change_pin()
+- record_transaction()
+- record_transaction() sobrecarga
+- get_transaction_history()
 */
 
 
@@ -58,5 +60,16 @@ void User::record_transaction(std::string type, double amount){}
 // - timestamp -> String que sera la propiedad "timestamp" del objeto "Transaction";
 void User::record_transaction(std::string type, double amount, std::string timestamp){}
 
+std::string User::getUsername() {
+    return this->username;
+}
+
+std::string User::getHashedPin() {
+    return this->hashed_pin;
+}
+
+Account User::getAccount() {
+    return this->account;
+}
 
 std::vector<Transaction> User::get_transaction_history(){}

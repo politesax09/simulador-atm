@@ -21,6 +21,9 @@ public:
     void change_pin(std::string new_pin);
     void record_transaction(std::string type, double amount);
     void record_transaction(std::string type, double amount, std::string timestamp);
+    std::string getUsername();
+    std::string getHashedPin();
+    Account getAccount();
     std::vector<Transaction> get_transaction_history();
 };
 

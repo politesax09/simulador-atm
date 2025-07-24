@@ -40,6 +40,18 @@
 # debug information files
 *.dwo
 
+# CMake
+build/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+
+# Binarios
+bin/
+lib/
+
 # macOS
 .DS_Store
 .DS_Store?
