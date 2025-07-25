@@ -1,13 +1,10 @@
 #include <string>
 #include <iostream>
 #include "User.h"
+#include "utils.h"
 
 /* TODO:
-- authenticate()
-- change_pin()
-- record_transaction()
-- record_transaction() sobrecarga
-- get_transaction_history()
+- get_transaction_history() ???? no se si asi se devuelve el puntero correctamente
 */
 
 
@@ -39,26 +36,41 @@ User::~User(){
     // this->account.delete();
 }
 
+// Comprueba si el PIN introducido coincide con el del usuario.
+// Params:
+// - entered_pin -> String, pin introducido para intentar login.
+// Return: bool, True si coinciden (login correcto) y False si no.
 bool User::authenticate(std::string entered_pin){
-
+    return verifyPin(this->hashed_pin, entered_pin);
 }
 
-void User::change_pin(std::string new_pin){}
+// Cambia el PIN actual por un nuevo PIN.
+// Params:
+// - new_pin -> String, nuevo PIN que va a guardar.
+void User::change_pin(std::string new_pin){
+    this->hashed_pin = hashPin(new_pin);
+}
 
 // Crea el objeto "Transaction" con los parametros introduciddos y lo anade a "transaction_history".
-// Esta sobrecarga anade una "timestamp" automaticamente.
+// Esta sobrecarga anade una "timestamp" automaticamente. Se utilizara para una nueva transaccion.
 // Params:
 // - type -> String que sera la propiedad "type" del objeto "Transaction".
 // - amount -> Double que sera la propiedad "amount" del objeto "Transaction".
-void User::record_transaction(std::string type, double amount){}
+void User::record_transaction(std::string type, double amount){
+    Transaction transaction(type, amount);
+    this->transaction_history.push_back(transaction);
+}
 
 // Crea el objeto "Transaction" con los parametros introduciddos y lo anade a "transaction_history".
-// Esta variante anade tambien la "timestamp" leida del JSON.
+// Esta variante anade tambien la "timestamp" por parametro. Se utilizara al leer los datos del JSON.
 // Params:
 // - type -> String que sera la propiedad "type" del objeto "Transaction".
 // - amount -> Double que sera la propiedad "amount" del objeto "Transaction".
 // - timestamp -> String que sera la propiedad "timestamp" del objeto "Transaction";
-void User::record_transaction(std::string type, double amount, std::string timestamp){}
+void User::record_transaction(std::string type, double amount, std::string timestamp){
+    Transaction transaction(type, amount, timestamp);
+    this->transaction_history.push_back(transaction);
+}
 
 std::string User::getUsername() {
     return this->username;
@@ -72,4 +84,6 @@ Account User::getAccount() {
     return this->account;
 }
 
-std::vector<Transaction> User::get_transaction_history(){}
+std::vector<Transaction> User::get_transaction_history() {
+    return this->transaction_history;
+}

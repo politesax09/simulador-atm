@@ -21,6 +21,8 @@ private:
     std::string timestamp;
 public:
     Transaction();
+    Transaction(std::string type, double amount);
+    Transaction(std::string type, double amount, std::string timestamp);
     ~Transaction();
     std::string to_string();
     void set_timestamp();

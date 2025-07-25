@@ -17,6 +17,27 @@ Transaction::Transaction(){
     this->set_timestamp();
 }
 
+// Constructor por parametro.
+// Params:
+// - type -> String, tipo de la transaccion
+// - amount -> double, monto de la transaccion
+Transaction::Transaction(std::string type, double amount) {
+    this->type = this->stringToType(type);
+    this->amount = amount;
+    this->set_timestamp();
+}
+
+// Constructor por parametro.
+// Params:
+// - type -> String, tipo de la transaccion
+// - amount -> double, monto de la transaccion
+// - timestamp -> String, timestamp en formato string
+Transaction::Transaction(std::string type, double amount, std::string timestamp) {
+    this->type = this->stringToType(type);
+    this->amount = amount;
+    this->timestamp = timestamp;
+}
+
 Transaction::~Transaction(){}
 
 // Obtiene una linea en formato string imprimible con los datos de la clase.

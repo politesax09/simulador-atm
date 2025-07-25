@@ -11,10 +11,6 @@
 
 using json = nlohmann::json;
 
-/* TODO:
-- getCurrentTimestamp()
-*/
-
 
 // Abre el fichero JSON que almacena los datos y lee los usuarios guardados con sus datos
 // y los carga en los objetos necesarios. Si no se encuentra el fichero, se crean los usuarios por defecto.
