@@ -12,6 +12,39 @@
 using json = nlohmann::json;
 
 
+// Crea un diccionario de usuarios por defecto.
+// Return: map<string, User>, Diccionario con clave "string" y valor "User".
+std::map<std::string, User> createDefaultUsers() {
+    Account acc_usr1("ES123456789", 1000.00);
+    Account acc_usr2("ES877334422", 3000.00);
+    Account acc_usr3("ES483729334", 45000.00);
+    User usr1("Rogelio", "1234", acc_usr1);
+    User usr2("Angel", "4321", acc_usr3);
+    User usr3("Rosa", "2222", acc_usr3);
+
+    std::map<std::string, User> users;
+    users["rogelio"] = usr1;
+    users["angel"] = usr2;
+    users["rosa"] = usr3;
+    return users;
+}
+
+
+// Obtiene el timestamp actual en formato ISO 8601
+// Return: string, timestamp en formato "YYYY-MM-DD HH:MM:SS"
+std::string getCurrentTimestamp() {
+    // Obtener tiempo actual
+    auto now = std::chrono::system_clock::now();
+    auto time_t = std::chrono::system_clock::to_time_t(now);
+    // Convertir a estructura tm
+    std::tm* tm = std::localtime(&time_t);
+    // Formatear como string
+    std::stringstream ss;
+    ss << std::put_time(tm, "%Y-%m-%d %H:%M:%S");
+    return ss.str();
+}
+
+
 // Abre el fichero JSON que almacena los datos y lee los usuarios guardados con sus datos
 // y los carga en los objetos necesarios. Si no se encuentra el fichero, se crean los usuarios por defecto.
 // Params:
@@ -71,21 +104,6 @@ std::map<std::string, User> readUsersFromFile(std::string path){
     }
 }
 
-// Crea un diccionario de usuarios por defecto.
-// Return: map<string, User>, Diccionario con clave "string" y valor "User".
-std::map<std::string, User> createDefaultUsers() {
-    Account acc_usr1("ES123456789", 1000.00);
-    Account acc_usr2("ES877334422", 3000.00);
-    Account acc_usr3("ES483729334", 45000.00);
-    User usr1("Rogelio", "1234", acc_usr1);
-    User usr2("Angel", "4321", acc_usr3);
-    User usr3("Rosa", "2222", acc_usr3);
-
-    users["rogelio"] = usr1;
-    users["angel"] = usr2;
-    users["rosa"] = usr3;
-    return users;
-}
 
 // Guarda los usuarios y algunos metadatos en el fichero JSON a modo de base de datos.
 // Params:
@@ -110,8 +128,8 @@ void saveUsersToJSON(const std::map<std::string, User>& users, const std::string
         userJson["status"] = "active";
 
         // Actualizar Cuenta
-        userJson["account"]["account_number"] = user.getAccount().getAccountNumber();
-        userJson["account"]["balance"] = user.getAccount().getBalance();
+        userJson["account"]["account_number"] = user.getAccount().get_account_number();
+        userJson["account"]["balance"] = user.getAccount().get_balance();
         userJson["account"]["account_type"] = "checking";
 
         // Actualizar Historial de transacciones
@@ -119,9 +137,9 @@ void saveUsersToJSON(const std::map<std::string, User>& users, const std::string
         for (const auto& trans : user.get_transaction_history())
         {
             json transElem;
-            transElem["type"] = trans.typeToString();
-            transElem["amount"] = trans.getAmount();
-            transElem["timestamp"] = trans.getTimestamp();
+            transElem["type"] = trans.type_to_string();
+            transElem["amount"] = trans.get_amount();
+            transElem["timestamp"] = trans.get_timestamp();
             transArray.push_back(transElem);
         }
         userJson["transacction_history"] = transArray;
@@ -181,20 +199,8 @@ bool verifyPin(std::string hashed, std::string entered) {
         std::string enteredHash = hashPin(entered);
         return hashed == enteredHash;
     }
-    catch(const std::exception& e)
+    catch(const std::exception& e) {
         return false;
+    }
 }
 
-// Obtiene el timestamp actual en formato ISO 8601
-// Return: string, timestamp en formato "YYYY-MM-DD HH:MM:SS"
-std::string getCurrentTimestamp() {
-    // Obtener tiempo actual
-    auto now = std::chorno::system_clock::now();
-    auto time_t = std::chrono::system_clock::to_time_t(now);
-    // Convertir a estructura tm
-    std::tm* tm = std::localtime(&time_t);
-    // Formatear como string
-    std::stringstream ss;
-    ss << std::put_time(tm, "%Y-%m-%d %H:%M:%S");
-    return ss.str();
-}

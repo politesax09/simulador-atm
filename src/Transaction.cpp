@@ -22,7 +22,7 @@ Transaction::Transaction(){
 // - type -> String, tipo de la transaccion
 // - amount -> double, monto de la transaccion
 Transaction::Transaction(std::string type, double amount) {
-    this->type = this->stringToType(type);
+    this->type = this->string_to_type(type);
     this->amount = amount;
     this->set_timestamp();
 }
@@ -33,7 +33,7 @@ Transaction::Transaction(std::string type, double amount) {
 // - amount -> double, monto de la transaccion
 // - timestamp -> String, timestamp en formato string
 Transaction::Transaction(std::string type, double amount, std::string timestamp) {
-    this->type = this->stringToType(type);
+    this->type = this->string_to_type(type);
     this->amount = amount;
     this->timestamp = timestamp;
 }
@@ -44,7 +44,7 @@ Transaction::~Transaction(){}
 // Return:
 // - string -> Linea con los datos imprimibles.
 std::string Transaction::to_string(){
-    return this->timestamp + " " + this->typeToString() + " " + std::to_string(this->amount) + "$";
+    return this->timestamp + " " + this->type_to_string() + " " + std::to_string(this->amount) + "$";
 }
 
 // Crea una timestamp acutal y se la asigna a la propiedad "timestamp" de la clase.
@@ -58,10 +58,24 @@ void Transaction::set_timestamp() {
     this->timestamp = oss.str();
 }
 
+// Accede a la propiedad "timestamp".
+// Return:
+// - string, La propiedad "timestamp"
+std::string Transaction::get_timestamp() const {
+    return this->timestamp;
+}
+
+// Accede a la propiedad "amount".
+// Return:
+// - double, La propiedad "amount"
+double Transaction::get_amount() const {
+    return this->amount;
+}
+
 // Convierte el valor de la propiedad "type" de "TransactionType" a string.
 // Return:
 // - string -> Valor de "type" en formato string.
-std::string Transaction::typeToString() const {
+std::string Transaction::type_to_string() const {
     switch (this->type)
     {
     case TransactionType::DEPOSIT:
@@ -86,7 +100,7 @@ std::string Transaction::typeToString() const {
 // Convierte el parametro de tipo string a "TransactionType".
 // Return:
 // - TransactionType -> Valor del enum correspondiente al string introducido por parametro
-TransactionType Transaction::stringToType(const std::string& str){
+TransactionType Transaction::string_to_type(const std::string& str){
     if (str == "DEPOSIT") {
         return TransactionType::DEPOSIT;
     } else if (str == "WITHDRAWAL") {

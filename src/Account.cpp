@@ -7,10 +7,14 @@ Account::Account() {
     this->balance = 0;
 }
 
-// Destructor
-Account::~Account() {
-
+// Constructor por parametro
+Account::Account(std::string new_account_number, double new_balance) {
+    this->account_number = new_account_number;
+    this->balance = new_balance;
 }
+
+// Destructor
+Account::~Account() {}
 
 // Anade el parametro "amount" a la propiedad "balance" de la clase
 void Account::deposit(double amount) {
@@ -37,6 +41,13 @@ bool Account::withraw(double amount) {
 // Accede a la propiedad "balance".
 // Return:
 // - double -> Valor de "balance"
-double Account::get_balance() {
+double Account::get_balance() const {
     return this->balance;
+}
+
+// Accede a la propiedad "account_number".
+// Return:
+// - string -> Valor de "account_number"
+std::string Account::get_account_number() const {
+    return this->account_number;
 }

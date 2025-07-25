@@ -26,8 +26,10 @@ public:
     ~Transaction();
     std::string to_string();
     void set_timestamp();
-    std::string typeToString() const;
-    static TransactionType stringToType(const std::string& str);
+    std::string get_timestamp() const;
+    double get_amount() const;
+    std::string type_to_string() const;
+    static TransactionType string_to_type(const std::string& str);
 };
 
 #endif

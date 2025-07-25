@@ -72,18 +72,18 @@ void User::record_transaction(std::string type, double amount, std::string times
     this->transaction_history.push_back(transaction);
 }
 
-std::string User::getUsername() {
+std::string User::getUsername() const {
     return this->username;
 }
 
-std::string User::getHashedPin() {
+std::string User::getHashedPin() const {
     return this->hashed_pin;
 }
 
-Account User::getAccount() {
+Account User::getAccount() const {
     return this->account;
 }
 
-std::vector<Transaction> User::get_transaction_history() {
+std::vector<Transaction> User::get_transaction_history() const {
     return this->transaction_history;
 }

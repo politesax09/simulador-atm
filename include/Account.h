@@ -14,7 +14,8 @@ public:
     ~Account();
     void deposit(double amount);
     bool withraw(double amount);
-    double get_balance();
+    double get_balance() const;
+    std::string get_account_number() const;
 };
 
 #endif

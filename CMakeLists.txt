@@ -20,6 +20,20 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 # Directorios de headers
 include_directories(include)
 
+# Asegurar detección correcta de CPU en Mac ARM64
+if(APPLE AND NOT DEFINED CMAKE_APPLE_SILICON_PROCESSOR)
+    message(STATUS "Apple Silicon detected: setting processor to arm64")
+    set(CMAKE_APPLE_SILICON_PROCESSOR "arm64" CACHE STRING "" FORCE)
+endif()
+
+# Configuración específica para macOS
+if(APPLE)
+    set_target_properties(simulador_atm PROPERTIES
+        MACOSX_RPATH ON
+        INSTALL_RPATH_USE_LINK_PATH ON
+    )
+endif()
+
 # Flags de compilación basados en tu Makefile original
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
 
@@ -78,14 +92,6 @@ if(HAS_OPENSSL)
     target_link_libraries(simulador_atm PRIVATE OpenSSL::SSL OpenSSL::Crypto)
 endif()
 
-# Configuración específica para macOS
-if(APPLE)
-    set_target_properties(simulador_atm PROPERTIES
-        MACOSX_RPATH ON
-        INSTALL_RPATH_USE_LINK_PATH ON
-    )
-endif()
-
 # Crear directorio de base de datos
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/db)
 
@@ -117,6 +123,36 @@ add_custom_target(info
     COMMAND ${CMAKE_COMMAND} -E echo "  OpenSSL: ${HAS_OPENSSL}"
     COMMENT "Mostrando información del proyecto"
 )
+
+# TESTING
+# GoogleTest
+include(FetchContent)
+FetchContent_Declare(
+  googletest
+  URL https://github.com/google/googletest/archive/refs/tags/release-1.12.1.zip
+)
+FetchContent_MakeAvailable(googletest)
+
+enable_testing()
+
+# Tests
+add_executable(transaction_tests tests/test_transaction.cpp)
+target_link_libraries(transaction_tests transaction gtest_main)
+
+# add_executable(account_tests tests/test_account.cpp)
+# target_link_libraries(account_tests account gtest_main)
+
+# add_executable(user_tests tests/test_user.cpp)
+# target_link_libraries(user_tests user gtest_main)
+
+# add_executable(atm_tests tests/test_atm.cpp)
+# target_link_libraries(atm_tests atm gtest_main)
+
+include(GoogleTest)
+gtest_discover_tests(transaction_tests)
+# gtest_discover_tests(account_tests)
+# gtest_discover_tests(user_tests)
+# gtest_discover_tests(atm_tests)
 
 # Información del build
 message(STATUS "========================================")

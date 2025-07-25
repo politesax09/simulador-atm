@@ -87,7 +87,7 @@ void Atm::show_main_menu(User* user) {
             case '4':
                 std::cout << "Historial de transacciones:" << std::endl;
                 transHistory = user->get_transaction_history();
-                for (auto& const t : transHistory)
+                for (auto& t : transHistory)
                     std::cout << t.to_string() << std::endl;
                 break;
             case '5':
